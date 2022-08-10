@@ -1,0 +1,10 @@
+9a8d008b331ad8b0a8316ccd917ddbd1a9c6598c assets/lunchbox/blockstates/lunchbox.json
+dc639e2efff00e7cefe97eefefa7cc698e4e0a2b assets/lunchbox/models/item/lunchbox.json
+eea7d07621ee1457a5cb80009bea00700b935e05 assets/lunchbox/models/item/lunchbox_open.json
+187e1394a5fdb402799e1ab9ce11e698ee6b2669 data/lunchbox/advancements/recipes/lunchbox/lunchbox.json
+6517b0afd645383b77f0420e40a539f62c891f60 data/lunchbox/recipes/lunchbox.json
+aefc93078362f2b7ce6ac4bccd68125d3092a25b data/lunchbox/tags/blocks/placed_lunchboxes.json
+da10ce54312e7b9861c7d0ff63f515a9354f1589 data/lunchbox/tags/items/force_always_eat.json
+aefc93078362f2b7ce6ac4bccd68125d3092a25b data/lunchbox/tags/items/lunchbox_blacklisted.json
+9f6c01cc85f2199f66083f3dce6f770aa5618c3d data/lunchbox/tags/items/lunchbox_whitelisted.json
+aefc93078362f2b7ce6ac4bccd68125d3092a25b data/lunchbox/tags/items/lunchboxes.json

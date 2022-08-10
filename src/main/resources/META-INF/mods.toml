@@ -1,0 +1,38 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="MIT License"
+issueTrackerURL="https://github.com/LegoMaster3650/Lunchbox/issues"
+
+[[mods]]
+modId="lunchbox"
+version="${file.jarVersion}"
+displayName="Lunchbox"
+#updateJSONURL="https://change.me.example.invalid/updates.json"
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
+#logoFile="lunchbox.png"
+#credits="Joe Mama"
+authors="LegoMaster3650"
+description='''
+Lunchboxes and more to solve your diet diversity needs!
+'''
+
+[[dependencies.lunchbox]]
+	modId="forge"
+	mandatory=true
+	versionRange="[40,)" #mandatory
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.lunchbox]]
+	modId="minecraft"
+	mandatory=true
+	versionRange="[1.18.2,1.19)"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.lunchbox]]
+	modId="appleskin"
+	mandatory=false
+	versionRange="[2.4.0,)"
+	ordering="BEFORE"
+	side="CLIENT"
