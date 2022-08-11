@@ -70,6 +70,12 @@ public class LunchboxItem extends BlockItem {
 	}
 	
 	@Override
+	public FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
+		if (stack.getItem() instanceof LunchboxItem) return getTargetFood(stack).getFoodProperties(entity);
+		return stack.getFoodProperties(entity);
+	}
+	
+	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (!(stack.getItem() instanceof LunchboxItem)) return InteractionResultHolder.pass(stack);

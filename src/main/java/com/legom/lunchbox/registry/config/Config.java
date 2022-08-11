@@ -49,18 +49,19 @@ public class Config {
 			builder.push("lunchboxes");
 			
 			builder.push("itemPreview");
-			lunchboxItemPreview = builder.comment("Lunchboxes show the currently selected food when held").define("lunchboxItemPreview", true);
-			itemPreviewMainhand = builder.comment("Shows the item preview when held in the main hand").define("itemPreviewMainhand", true);
-			itemPreviewOffhand = builder.comment("Shows the item preview when held in the offhand").define("itemPreviewOffhand", true);
-			itemPreviewYOffset = builder.comment("Vertical offset of the item preview (+UP,-DOWN)", "Useful for aligning with mods that raise the hotbar").defineInRange("itemPreviewYOffset", 0, -20, 100);
-			offhandPreviewXOffset = builder.comment("Horizontal offset of the item preview in the offhand position (+FURTHER,-CLOSER)", "Useful for aligning with mods that move the offhand").defineInRange("offhandPreviewXOffset", 0, -20, 100);
+			lunchboxItemPreview = builder.comment("Lunchboxes show the currently selected food when held","[Default: true]").define("lunchboxItemPreview", true);
+			itemPreviewMainhand = builder.comment("Shows the item preview when held in the main hand","[Default: true]").define("itemPreviewMainhand", true);
+			itemPreviewOffhand = builder.comment("Shows the item preview when held in the offhand","[Default: true]").define("itemPreviewOffhand", true);
+			itemPreviewYOffset = builder.comment("Vertical offset of the item preview (+UP,-DOWN)", "Useful for aligning with mods that raise the hotbar","[Default: 0]").defineInRange("itemPreviewYOffset", 0, -100, 200);
+			offhandPreviewXOffset = builder.comment("Horizontal offset of the item preview in the offhand position (+FURTHER,-CLOSER)", "Useful for aligning with mods that move the offhand", "[Default: 0]").defineInRange("offhandPreviewXOffset", 0, -100, 200);
 			mainhandPreviewMode = builder.comment("How the main hand item preview shows",
 												  "0 - CENTER  - The preview appears in the center of the hotbar",
 												  "1 - OFFHAND - The preview appears in the opposite position of when in the offhand",
 												  "2 - FOLLOW  - The preview appears above the selected hotbar slot",
-												  "3 - OVERLAY - The preview appears ON the selected hotbar slot").defineInRange("mainhandPreviewMode", 1, 0, 3);
-			centerPreviewYOffset = builder.comment("Vertical offset when in CENTER (0) main hand preview mode (+UP,-DOWN)").defineInRange("centerPreviewYOffset", 14, -20, 100);
-			followPreviewYOffset = builder.comment("Vertical offset when in FOLLOW (2) main hand preview mode (+UP,-DOWN)").defineInRange("followPreviewYOffset", 17, -20, 100);
+												  "3 - OVERLAY - The preview appears ON the selected hotbar slot",
+												  "[Default: 1 (OFFHAND)]").defineInRange("mainhandPreviewMode", 1, 0, 3);
+			centerPreviewYOffset = builder.comment("Vertical offset when in CENTER (0) main hand preview mode (+UP,-DOWN)", "[Default: 14]").defineInRange("centerPreviewYOffset", 14, -100, 200);
+			followPreviewYOffset = builder.comment("Vertical offset when in FOLLOW (2) main hand preview mode (+UP,-DOWN)", "[Default: 17]").defineInRange("followPreviewYOffset", 17, -100, 200);
 			builder.pop();
 			
 			builder.pop();
