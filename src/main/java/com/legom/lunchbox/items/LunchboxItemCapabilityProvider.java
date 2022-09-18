@@ -32,6 +32,11 @@ public class LunchboxItemCapabilityProvider implements ICapabilitySerializable<C
 			public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
 				return LunchboxItem.checkItemValid(stack) && super.isItemValid(slot, stack);
 			}
+			
+			@Override
+			protected void onContentsChanged(int slot) {
+				
+			}
 		};
 	}
 	

@@ -7,7 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-		//classpath 'org.spongepowered:mixingradle:0.7.+'
+		classpath 'org.spongepowered:mixingradle:0.7.+'
 		classpath 'org.parchmentmc:librarian:1.+'
 	}
 }
@@ -16,10 +16,10 @@ apply plugin: 'net.minecraftforge.gradle'
 
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-//apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-version = '1.0.1'
+version = '1.1.0'
 group = 'com.legom.lunchbox'
 archivesBaseName = 'lunchbox'
 
@@ -102,8 +102,18 @@ repositories {
 	maven {
 		url 'https://cursemaven.com'
 		content {
-            includeGroup "curse.maven"
-        }
+			includeGroup "curse.maven"
+		}
+	}
+	maven {
+		// location of the maven that hosts JEI files
+		name = "Progwml6 maven"
+		url = "https://dvs1.progwml6.com/files/maven/"
+	}
+	maven {
+		// location of a maven mirror for JEI files, as a fallback
+		name = "ModMaven"
+		url = "https://modmaven.dev"
 	}
 }
 
@@ -112,10 +122,14 @@ dependencies {
 	
 	runtimeOnly fg.deobf("curse.maven:appleskin-248787:3927564")
 	
-	//annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+	// compile against the JEI API but do not include it at runtime
+	compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+	// at runtime, use the full JEI jar
+	runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+	
+	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
-/* No longer needed for now
 mixin {
 	add sourceSets.main, 'lunchbox.refmap.json'
 	config 'lunchbox.mixins.json'
@@ -124,7 +138,6 @@ mixin {
 	debug.export = true
 	dumpTargetOnFailure = true
 }
-*/
 
 jar {
 	manifest {

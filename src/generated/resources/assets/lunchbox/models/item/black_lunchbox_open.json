@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lunchbox:item/black_lunchbox_open"
+  }
+}

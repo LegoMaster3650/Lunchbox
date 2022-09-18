@@ -14,12 +14,14 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -35,14 +37,17 @@ import net.minecraftforge.network.NetworkHooks;
 
 public class LunchboxBlock extends Block implements EntityBlock {
 	
+	private final DyeColor color;
+	
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 	
 	private static final VoxelShape SHAPE_X = Shapes.box(.25, 0, .125, .75, .5, .875);
 	private static final VoxelShape SHAPE_Z = Shapes.box(.125, 0, .25, .875, .5, .75);
 	
-	public LunchboxBlock(Properties properties) {
-		super(properties);
+	public LunchboxBlock(Properties properties, @Nullable DyeColor color) {
+		super(properties.sound(SoundType.METAL).instabreak().noOcclusion());
+		this.color = color;
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, false));
 	}
 	
@@ -66,16 +71,16 @@ public class LunchboxBlock extends Block implements EntityBlock {
 	@Override
 	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
-		if (blockEntity instanceof LunchboxBlockEntity) {
-			((LunchboxBlockEntity)blockEntity).loadAllData(stack);
+		if (blockEntity instanceof LunchboxBlockEntity lunchboxBE) {
+			lunchboxBE.loadAllData(stack);
 		}
 	}
 	
 	@Override
 	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
-		if (blockEntity instanceof LunchboxBlockEntity && !level.isClientSide && !player.getAbilities().instabuild) {
-			ItemStack newItem = ((LunchboxBlockEntity)blockEntity).makeItem(asItem());
+		if (blockEntity instanceof LunchboxBlockEntity lunchboxBE && !level.isClientSide && !player.getAbilities().instabuild) {
+			ItemStack newItem = lunchboxBE.makeItem(asItem());
 			if (!(player instanceof FakePlayer) && player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() && Config.SERVER.lunchboxInstantPickup.get()) {
 				player.setItemInHand(InteractionHand.MAIN_HAND, newItem);
 			} else {
@@ -103,7 +108,15 @@ public class LunchboxBlock extends Block implements EntityBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new LunchboxBlockEntity(pos, state);
+		return new LunchboxBlockEntity(pos, state, this.getColor());
+	}
+	
+	public DyeColor getColor() {
+		return this.color;
+	}
+	
+	public static DyeColor getColorFromBlock(Block block) {
+		return block instanceof LunchboxBlock lunchboxBlock ? lunchboxBlock.getColor() : null;
 	}
 	
 }

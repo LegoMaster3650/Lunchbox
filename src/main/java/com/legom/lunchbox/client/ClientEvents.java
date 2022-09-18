@@ -1,4 +1,4 @@
-package com.legom.lunchbox.event;
+package com.legom.lunchbox.client;
 
 import org.lwjgl.opengl.GL11;
 
@@ -21,8 +21,9 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+
 @Mod.EventBusSubscriber(modid = Lunchbox.MOD_ID, value = Dist.CLIENT)
-public class ClientEventSubscriber {
+public class ClientEvents {
 	
 	private static ResourceLocation WIDGETS = new ResourceLocation(Lunchbox.MOD_ID, "textures/gui/widgets.png");
 	

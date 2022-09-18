@@ -1,5 +1,7 @@
 package com.legom.lunchbox.menus;
 
+import javax.annotation.Nullable;
+
 import com.legom.lunchbox.Lunchbox;
 import com.legom.lunchbox.items.LunchboxItem;
 import com.legom.lunchbox.registry.ModContainers;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 
@@ -27,17 +30,22 @@ public class LunchboxSelectorMenu extends AbstractContainerMenu {
 	private final int selectedSlot;
 	private final InteractionHand hand;
 	
+	private final DyeColor color;
+	
 	public LunchboxSelectorMenu(int windowId, Inventory playerInv, FriendlyByteBuf data) {
-		this(windowId, playerInv, data.readInt(), data.readInt(), InteractionHand.values()[data.readInt()]);
+		this(windowId, playerInv, data.readInt(), data.readInt(), InteractionHand.values()[data.readInt()], LunchboxItem.deserialzeDyeColor(data.readInt()));
 	}
 	
-	public LunchboxSelectorMenu(int windowId, Inventory playerInv, int selSlot, int rows, InteractionHand selHand) {
+	public LunchboxSelectorMenu(int windowId, Inventory playerInv, int selSlot, int rows, InteractionHand selHand, @Nullable DyeColor color) {
 		super(ModContainers.LUNCHBOX_SELECTOR.get(), windowId);
 		this.boxRows = rows;
 		
 		this.selectedSlot = selSlot;
 		this.hand = selHand;
 		this.boxItem = playerInv.player.getItemInHand(hand);
+		
+		this.color = color;
+		
 		if (!(boxItem.getItem() instanceof LunchboxItem) && playerInv.player.level.isClientSide) {
 			playerInv.player.closeContainer();
 		}
@@ -106,6 +114,10 @@ public class LunchboxSelectorMenu extends AbstractContainerMenu {
 	
 	public int getTargetSlot() {
 		return LunchboxItem.getTargetFoodSlot(boxItem);
+	}
+	
+	public DyeColor getColor() {
+		return this.color;
 	}
 	
 }

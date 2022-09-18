@@ -19,6 +19,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -80,11 +81,20 @@ public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
 	private int invRows;
 	private Component customName;
 	
+	private final DyeColor color;
+	
 	private int targetSlotSave = 0;
 	
 	public LunchboxBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.LUNCHBOX.get(), pos, state);
 		this.invRows = Reference.lunchboxRows;
+		this.color = LunchboxBlock.getColorFromBlock(state.getBlock());
+	}
+	
+	public LunchboxBlockEntity(BlockPos pos, BlockState state, @Nullable DyeColor color) {
+		super(ModBlockEntities.LUNCHBOX.get(), pos, state);
+		this.invRows = Reference.lunchboxRows;
+		this.color = color;
 	}
 	
 	public void loadAllData(ItemStack stack) {
@@ -143,7 +153,7 @@ public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
 	
 	@Override
 	public Component getDisplayName() {
-		return this.customName != null ? this.customName : new TranslatableComponent("block.lunchbox.lunchbox");
+		return this.customName != null ? this.customName : new TranslatableComponent("block.lunchbox." + LunchboxItem.getDyePrefix(this.color) + "lunchbox");
 	}
 	
 	@Override
@@ -176,6 +186,10 @@ public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
 		if (!this.remove && !player.isSpectator()) {
 			this.openersCounter.decrementOpeners(player, getLevel(), getBlockPos(), getBlockState());
 		}
+	}
+	
+	public DyeColor getColor() {
+		return this.color;
 	}
 	
 }

@@ -9,8 +9,8 @@ version="${file.jarVersion}"
 displayName="Lunchbox"
 #updateJSONURL="https://change.me.example.invalid/updates.json"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/lunchboxes"
-#logoFile="lunchbox.png"
-#credits="Joe Mama"
+logoFile="lunchbox.png"
+credits="LegoMaster3650 (Coding and most art), ChumChimmy (purple lunchbox)"
 authors="LegoMaster3650"
 description='''
 Lunchboxes and more to solve your diet diversity needs!
@@ -19,7 +19,7 @@ Lunchboxes and more to solve your diet diversity needs!
 [[dependencies.lunchbox]]
 	modId="forge"
 	mandatory=true
-	versionRange="[40,)" #mandatory
+	versionRange="[40,)"
 	ordering="NONE"
 	side="BOTH"
 
@@ -36,3 +36,6 @@ Lunchboxes and more to solve your diet diversity needs!
 	versionRange="[2.4.1,)"
 	ordering="BEFORE"
 	side="CLIENT"
+
+[modproperties.lunchbox]
+	catalogueItemIcon="lunchbox:lunchbox"

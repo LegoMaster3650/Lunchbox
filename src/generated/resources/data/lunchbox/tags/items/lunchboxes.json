@@ -1,6 +1,22 @@
 {
   "replace": false,
   "values": [
-    "lunchbox:lunchbox"
+    "lunchbox:lunchbox",
+    "lunchbox:white_lunchbox",
+    "lunchbox:orange_lunchbox",
+    "lunchbox:magenta_lunchbox",
+    "lunchbox:light_blue_lunchbox",
+    "lunchbox:yellow_lunchbox",
+    "lunchbox:lime_lunchbox",
+    "lunchbox:pink_lunchbox",
+    "lunchbox:gray_lunchbox",
+    "lunchbox:light_gray_lunchbox",
+    "lunchbox:cyan_lunchbox",
+    "lunchbox:purple_lunchbox",
+    "lunchbox:blue_lunchbox",
+    "lunchbox:brown_lunchbox",
+    "lunchbox:green_lunchbox",
+    "lunchbox:red_lunchbox",
+    "lunchbox:black_lunchbox"
   ]
 }

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,6 +21,8 @@ public class LunchboxPlacedMenu extends AbstractContainerMenu {
 	private final Level level;
 	private final int boxRows;
 	
+	private final DyeColor color;
+	
 	public LunchboxPlacedMenu(int windowId, Inventory playerInv, FriendlyByteBuf data) {
 		this(windowId, playerInv, validateBlockEntity(playerInv.player.level.getBlockEntity(data.readBlockPos())));
 	}
@@ -29,6 +32,7 @@ public class LunchboxPlacedMenu extends AbstractContainerMenu {
 		this.blockEntity = blockEntity;
 		this.level = playerInv.player.level;
 		this.boxRows = blockEntity.getInvRows();
+		this.color = blockEntity.getColor();
 		
 		blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
 			for (int i = 0; i < boxRows; i++) {
@@ -108,6 +112,10 @@ public class LunchboxPlacedMenu extends AbstractContainerMenu {
 	
 	public LunchboxBlockEntity getBlockEntity() {
 		return this.blockEntity;
+	}
+	
+	public DyeColor getColor() {
+		return this.color;
 	}
 	
 	private static LunchboxBlockEntity validateBlockEntity(BlockEntity blockEntity) {

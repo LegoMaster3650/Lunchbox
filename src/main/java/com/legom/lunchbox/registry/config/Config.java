@@ -17,7 +17,6 @@ public class Config {
 			
 			lunchboxInstantPickup = builder.comment("Lunchboxes instantly go into your hand if broken while holding nothing").define("lunchboxInstantPickup", true);
 			
-			
 			builder.pop();
 		}
 		
@@ -25,10 +24,17 @@ public class Config {
 	
 	public static class Common {
 		
+		public final BooleanValue enableNetworkCapabilities;
+		
 		Common(ForgeConfigSpec.Builder builder) {
-			builder.push("lunchboxes");
+			builder.comment("Slightly invasive patches that you may want to configure").push("patches");
 			
-			
+			enableNetworkCapabilities = builder.comment(
+					"Serializes item capabilities over network using a mixin.",
+					"This is necessary for the items to properly synchronize between client & server.",
+					"Only does this for Lunchbox items",
+					"WARNING: If you disable this on a server, make sure to give the updated file to all players"
+					).define("enableNetworkCapabilities", true);
 			
 			builder.pop();
 		}
@@ -44,6 +50,8 @@ public class Config {
 		public final IntValue mainhandPreviewMode;
 		public final IntValue centerPreviewYOffset;
 		public final IntValue followPreviewYOffset;
+		
+		public final BooleanValue enableLunchboxTooltips;
 		
 		Client(ForgeConfigSpec.Builder builder) {
 			builder.push("lunchboxes");
@@ -63,6 +71,8 @@ public class Config {
 			centerPreviewYOffset = builder.comment("Vertical offset when in CENTER (0) main hand preview mode (+UP,-DOWN)", "[Default: 14]").defineInRange("centerPreviewYOffset", 14, -100, 200);
 			followPreviewYOffset = builder.comment("Vertical offset when in FOLLOW (2) main hand preview mode (+UP,-DOWN)", "[Default: 17]").defineInRange("followPreviewYOffset", 17, -100, 200);
 			builder.pop();
+			
+			enableLunchboxTooltips = builder.comment("Enable colored lunchbox tooltips", "[Default: true]").define("enableLunchboxTooltips", true);
 			
 			builder.pop();
 		}

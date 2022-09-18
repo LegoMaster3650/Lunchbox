@@ -1,6 +1,7 @@
 package com.legom.lunchbox.screens;
 
 import com.legom.lunchbox.Lunchbox;
+import com.legom.lunchbox.items.LunchboxItem;
 import com.legom.lunchbox.menus.LunchboxPlacedMenu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,13 +16,14 @@ public class LunchboxPlacedScreen extends AbstractContainerScreen<LunchboxPlaced
 	
 	private final int boxRows;
 	
-	private final ResourceLocation BG_TEXTURE = new ResourceLocation(Lunchbox.MOD_ID, "textures/gui/lunchbox.png");
+	private final ResourceLocation BG_TEXTURE;
 	
 	public LunchboxPlacedScreen(LunchboxPlacedMenu container, Inventory playerInv, Component name) {
 		super(container, playerInv, name);
 		this.boxRows = container.getBoxRows();
 		this.imageHeight = 114 + this.boxRows * 18;
 		this.inventoryLabelY = this.imageHeight - 94;
+		this.BG_TEXTURE = new ResourceLocation(Lunchbox.MOD_ID, "textures/gui/" + LunchboxItem.getDyePrefix(container.getColor()) + "lunchbox.png");
 	}
 	
 	@Override

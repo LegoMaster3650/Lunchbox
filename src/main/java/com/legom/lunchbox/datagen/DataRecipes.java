@@ -2,13 +2,16 @@ package com.legom.lunchbox.datagen;
 
 import java.util.function.Consumer;
 
+import com.legom.lunchbox.Lunchbox;
 import com.legom.lunchbox.registry.ModItems;
+import com.legom.lunchbox.registry.ModRecipes;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
@@ -29,6 +32,8 @@ public class DataRecipes extends RecipeProvider {
 			.unlockedBy("iron", InventoryChangeTrigger.TriggerInstance.hasItems(Items.IRON_INGOT))
 			.unlockedBy("gold", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
 			.save(consumer);
+		
+//		SpecialRecipeBuilder.special(ModRecipes.LUNCHBOX_DYE.get()).save(consumer, Lunchbox.MOD_ID + ":lunchbox_dye");
 	}
 	
 }

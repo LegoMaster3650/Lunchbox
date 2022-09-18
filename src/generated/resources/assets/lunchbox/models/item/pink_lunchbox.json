@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lunchbox:item/pink_lunchbox"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "lunchbox:open": 1.0
+      },
+      "model": "lunchbox:item/pink_lunchbox_open"
+    }
+  ]
+}

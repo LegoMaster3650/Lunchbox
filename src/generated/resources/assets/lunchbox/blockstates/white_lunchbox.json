@@ -1,0 +1,46 @@
+{
+  "variants": {
+    "facing=down,open=false": {
+      "model": "lunchbox:block/white_lunchbox"
+    },
+    "facing=up,open=false": {
+      "model": "lunchbox:block/white_lunchbox"
+    },
+    "facing=north,open=false": {
+      "model": "lunchbox:block/white_lunchbox"
+    },
+    "facing=south,open=false": {
+      "model": "lunchbox:block/white_lunchbox",
+      "y": 180
+    },
+    "facing=west,open=false": {
+      "model": "lunchbox:block/white_lunchbox",
+      "y": 270
+    },
+    "facing=east,open=false": {
+      "model": "lunchbox:block/white_lunchbox",
+      "y": 90
+    },
+    "facing=down,open=true": {
+      "model": "lunchbox:block/white_lunchbox_open"
+    },
+    "facing=up,open=true": {
+      "model": "lunchbox:block/white_lunchbox_open"
+    },
+    "facing=north,open=true": {
+      "model": "lunchbox:block/white_lunchbox_open"
+    },
+    "facing=south,open=true": {
+      "model": "lunchbox:block/white_lunchbox_open",
+      "y": 180
+    },
+    "facing=west,open=true": {
+      "model": "lunchbox:block/white_lunchbox_open",
+      "y": 270
+    },
+    "facing=east,open=true": {
+      "model": "lunchbox:block/white_lunchbox_open",
+      "y": 90
+    }
+  }
+}

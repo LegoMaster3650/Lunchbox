@@ -1,0 +1,7 @@
+{
+  "parent": "lunchbox:block/lunchbox",
+  "textures": {
+    "0": "lunchbox:block/black_lunchbox",
+    "particle": "lunchbox:block/black_lunchbox"
+  }
+}

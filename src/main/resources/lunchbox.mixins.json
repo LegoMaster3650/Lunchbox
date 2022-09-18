@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "com.legom.lunchbox.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"refmap": "lunchbox.refmap.json",
+	"mixins": [
+		"FriendlyByteBufMixin",
+		"CapabilityProviderInvoker"
+	],
+	"client": [
+		
+	],
+	"minVersion": "0.8"
+}

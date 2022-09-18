@@ -19,10 +19,43 @@ public class DataItemTags extends ItemTagsProvider {
 	@Override
 	protected void addTags() {
 		tag(ModItemTags.LUNCHBOX)
-			.add(ModItems.LUNCHBOX.get());
+			.add(ModItems.LUNCHBOX.get())
+			.add(ModItems.WHITE_LUNCHBOX.get())
+			.add(ModItems.ORANGE_LUNCHBOX.get())
+			.add(ModItems.MAGENTA_LUNCHBOX.get())
+			.add(ModItems.LIGHT_BLUE_LUNCHBOX.get())
+			.add(ModItems.YELLOW_LUNCHBOX.get())
+			.add(ModItems.LIME_LUNCHBOX.get())
+			.add(ModItems.PINK_LUNCHBOX.get())
+			.add(ModItems.GRAY_LUNCHBOX.get())
+			.add(ModItems.LIGHT_GRAY_LUNCHBOX.get())
+			.add(ModItems.CYAN_LUNCHBOX.get())
+			.add(ModItems.PURPLE_LUNCHBOX.get())
+			.add(ModItems.BLUE_LUNCHBOX.get())
+			.add(ModItems.BROWN_LUNCHBOX.get())
+			.add(ModItems.GREEN_LUNCHBOX.get())
+			.add(ModItems.RED_LUNCHBOX.get())
+			.add(ModItems.BLACK_LUNCHBOX.get());
+		
 		
 		tag(ModItemTags.LUNCHBOX_BLACKLIST)
-			.add(ModItems.LUNCHBOX.get());
+			.add(ModItems.LUNCHBOX.get())
+			.add(ModItems.WHITE_LUNCHBOX.get())
+			.add(ModItems.ORANGE_LUNCHBOX.get())
+			.add(ModItems.MAGENTA_LUNCHBOX.get())
+			.add(ModItems.LIGHT_BLUE_LUNCHBOX.get())
+			.add(ModItems.YELLOW_LUNCHBOX.get())
+			.add(ModItems.LIME_LUNCHBOX.get())
+			.add(ModItems.PINK_LUNCHBOX.get())
+			.add(ModItems.GRAY_LUNCHBOX.get())
+			.add(ModItems.LIGHT_GRAY_LUNCHBOX.get())
+			.add(ModItems.CYAN_LUNCHBOX.get())
+			.add(ModItems.PURPLE_LUNCHBOX.get())
+			.add(ModItems.BLUE_LUNCHBOX.get())
+			.add(ModItems.BROWN_LUNCHBOX.get())
+			.add(ModItems.GREEN_LUNCHBOX.get())
+			.add(ModItems.RED_LUNCHBOX.get())
+			.add(ModItems.BLACK_LUNCHBOX.get());
 		
 		tag(ModItemTags.LUNCHBOX_WHITELIST)
 			.add(Items.POTION);
