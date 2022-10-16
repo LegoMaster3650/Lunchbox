@@ -83,6 +83,7 @@ d12046635aca8d501cf50504392fd835166231e9 assets/lunchbox/models/item/white_lunch
 11ae4c23a08cfd219def8b9ce7d54da7e58aaf81 assets/lunchbox/models/item/yellow_lunchbox_open.json
 187e1394a5fdb402799e1ab9ce11e698ee6b2669 data/lunchbox/advancements/recipes/lunchbox/lunchbox.json
 6517b0afd645383b77f0420e40a539f62c891f60 data/lunchbox/recipes/lunchbox.json
+2918e7f4d6aab21216310a6b7f8fe3c7b5d52b0c data/lunchbox/recipes/lunchbox_dye.json
 27865c2cfd57cb476ac480b68acf440c1a26c05f data/lunchbox/tags/blocks/placed_lunchboxes.json
 da10ce54312e7b9861c7d0ff63f515a9354f1589 data/lunchbox/tags/items/force_always_eat.json
 27865c2cfd57cb476ac480b68acf440c1a26c05f data/lunchbox/tags/items/lunchbox_blacklisted.json

@@ -33,7 +33,7 @@ public class DataRecipes extends RecipeProvider {
 			.unlockedBy("gold", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
 			.save(consumer);
 		
-//		SpecialRecipeBuilder.special(ModRecipes.LUNCHBOX_DYE.get()).save(consumer, Lunchbox.MOD_ID + ":lunchbox_dye");
+		SpecialRecipeBuilder.special(ModRecipes.LUNCHBOX_DYE.get()).save(consumer, Lunchbox.MOD_ID + ":lunchbox_dye");
 	}
 	
 }

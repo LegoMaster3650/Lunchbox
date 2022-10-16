@@ -18,7 +18,7 @@ public class LunchboxJEIPlugin implements IModPlugin {
 	
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
-//		registration.addRecipes(RecipeTypes.CRAFTING, LunchboxDyeRecipeMaker.getRecipes());
+		registration.addRecipes(RecipeTypes.CRAFTING, LunchboxDyeRecipeMaker.getRecipes());
 	}
 	
 }
