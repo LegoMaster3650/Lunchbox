@@ -40,7 +40,7 @@ public class DataBlockStates extends BlockStateProvider {
 		createLunchbox(ModBlocks.BLUE_LUNCHBOX.get(), "blue_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.BROWN_LUNCHBOX.get(), "brown_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.GREEN_LUNCHBOX.get(), "green_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.RED_LUNCHBOX.get(), "red_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.RED_LUNCHBOX.get(), "red_lunchbox", null);
 		createLunchbox(ModBlocks.BLACK_LUNCHBOX.get(), "black_lunchbox", "lunchbox");
 	}
 	
