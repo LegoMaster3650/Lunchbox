@@ -166,7 +166,7 @@
 			"name": "Lid",
 			"from": [2, 7, 4],
 			"to": [14, 8, 12],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [8, 11.5, 14, 12], "texture": "#0"},
 				"east": {"uv": [8, 12.5, 12, 13], "texture": "#0"},
@@ -180,7 +180,7 @@
 			"name": "Clip",
 			"from": [7, 6, 12],
 			"to": [9, 8, 13],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [12.5, 0, 13.5, 1], "texture": "#0"},
 				"east": {"uv": [13.5, 0, 14, 1], "texture": "#0"},
@@ -194,7 +194,7 @@
 			"name": "Tooth",
 			"from": [3, 6, 5],
 			"to": [3, 7, 6],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -208,7 +208,7 @@
 			"name": "Tooth",
 			"from": [3, 6, 7],
 			"to": [3, 7, 8],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -222,7 +222,7 @@
 			"name": "Tooth",
 			"from": [3, 6, 9],
 			"to": [3, 7, 10],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -236,7 +236,7 @@
 			"name": "Tooth",
 			"from": [3, 6, 11],
 			"to": [4, 7, 11],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -250,7 +250,7 @@
 			"name": "Tooth",
 			"from": [5, 6, 11],
 			"to": [6, 7, 11],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -264,7 +264,7 @@
 			"name": "Tooth",
 			"from": [7, 6, 11],
 			"to": [8, 7, 11],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -278,7 +278,7 @@
 			"name": "Tooth",
 			"from": [9, 6, 11],
 			"to": [10, 7, 11],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -292,7 +292,7 @@
 			"name": "Tooth",
 			"from": [11, 6, 11],
 			"to": [12, 7, 11],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -306,7 +306,7 @@
 			"name": "Tooth",
 			"from": [13, 6, 10],
 			"to": [13, 7, 11],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -320,7 +320,7 @@
 			"name": "Tooth",
 			"from": [13, 6, 8],
 			"to": [13, 7, 9],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
@@ -334,7 +334,7 @@
 			"name": "Tooth",
 			"from": [13, 6, 6],
 			"to": [13, 7, 7],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 7, 4]},
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 7, 4]},
 			"faces": {
 				"north": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
 				"east": {"uv": [14, 1, 14.5, 1.5], "texture": "#0"},
