@@ -2,7 +2,7 @@ package io._3650.lunchbox.client;
 
 import io._3650.lunchbox.Lunchbox;
 import io._3650.lunchbox.items.LunchboxItem;
-import io._3650.lunchbox.registry.ModContainers;
+import io._3650.lunchbox.registry.ModMenus;
 import io._3650.lunchbox.registry.ModItems;
 import io._3650.lunchbox.screens.LunchboxPlacedScreen;
 import io._3650.lunchbox.screens.LunchboxSelectorScreen;
@@ -51,8 +51,8 @@ public class LunchboxClient {
 			ItemProperties.register(ModItems.RED_LUNCHBOX.get(), openPropertyLoc, LunchboxClient::openFunc);
 			ItemProperties.register(ModItems.BLACK_LUNCHBOX.get(), openPropertyLoc, LunchboxClient::openFunc);
 			//Register screens
-			MenuScreens.register(ModContainers.LUNCHBOX_PLACED.get(), LunchboxPlacedScreen::new);
-			MenuScreens.register(ModContainers.LUNCHBOX_SELECTOR.get(), LunchboxSelectorScreen::new);
+			MenuScreens.register(ModMenus.LUNCHBOX_PLACED.get(), LunchboxPlacedScreen::new);
+			MenuScreens.register(ModMenus.LUNCHBOX_SELECTOR.get(), LunchboxSelectorScreen::new);
 		});
 	}
 	

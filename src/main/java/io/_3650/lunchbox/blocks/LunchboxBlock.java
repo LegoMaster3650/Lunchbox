@@ -7,7 +7,9 @@ import io._3650.lunchbox.registry.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -69,16 +71,14 @@ public class LunchboxBlock extends Block implements EntityBlock {
 	
 	@Override
 	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		BlockEntity blockEntity = level.getBlockEntity(pos);
-		if (blockEntity instanceof LunchboxBlockEntity lunchboxBE) {
+		if (level.getBlockEntity(pos) instanceof LunchboxBlockEntity lunchboxBE) {
 			lunchboxBE.loadAllData(stack);
 		}
 	}
 	
 	@Override
 	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-		BlockEntity blockEntity = level.getBlockEntity(pos);
-		if (blockEntity instanceof LunchboxBlockEntity lunchboxBE && !level.isClientSide && !player.getAbilities().instabuild) {
+		if (level.getBlockEntity(pos) instanceof LunchboxBlockEntity lunchboxBE && !level.isClientSide && !player.getAbilities().instabuild) {
 			ItemStack newItem = lunchboxBE.makeItem(asItem());
 			if (!(player instanceof FakePlayer) && player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() && Config.SERVER.lunchboxInstantPickup.get()) {
 				player.setItemInHand(InteractionHand.MAIN_HAND, newItem);
@@ -94,14 +94,19 @@ public class LunchboxBlock extends Block implements EntityBlock {
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult trace) {
 		if (!level.isClientSide) {
-			BlockEntity blockEntity = level.getBlockEntity(pos);
-			if (blockEntity instanceof LunchboxBlockEntity) {
-				LunchboxBlockEntity lunchboxBE = (LunchboxBlockEntity)blockEntity;
-				NetworkHooks.openGui((ServerPlayer) player, lunchboxBE, pos);
+			if (level.getBlockEntity(pos) instanceof LunchboxBlockEntity lunchboxBE) {
+				NetworkHooks.openScreen((ServerPlayer) player, lunchboxBE, pos);
 				lunchboxBE.startOpen(player);
 			}
 		}
 		return InteractionResult.sidedSuccess(level.isClientSide);
+	}
+	
+	@Override
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		if (level.getBlockEntity(pos) instanceof LunchboxBlockEntity lunchboxBE) {
+			lunchboxBE.recheckOpen();
+		}
 	}
 	
 	@Nullable

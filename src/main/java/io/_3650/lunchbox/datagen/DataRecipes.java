@@ -6,8 +6,9 @@ import io._3650.lunchbox.Lunchbox;
 import io._3650.lunchbox.registry.ModItems;
 import io._3650.lunchbox.registry.ModRecipes;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
@@ -16,13 +17,13 @@ import net.minecraftforge.common.Tags;
 
 public class DataRecipes extends RecipeProvider {
 
-	public DataRecipes(DataGenerator generator) {
-		super(generator);
+	public DataRecipes(PackOutput output) {
+		super(output);
 	}
 	
 	@Override
-	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-		ShapedRecipeBuilder.shaped(ModItems.LUNCHBOX.get())
+	protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+		ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModItems.LUNCHBOX.get())
 			.pattern(" # ")
 			.pattern("#-#")
 			.pattern("###")

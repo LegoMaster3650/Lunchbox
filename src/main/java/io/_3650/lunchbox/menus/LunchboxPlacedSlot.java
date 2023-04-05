@@ -1,14 +1,14 @@
 package io._3650.lunchbox.menus;
 
 import io._3650.lunchbox.items.LunchboxItem;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
-public class LunchboxPlacedSlot extends SlotItemHandler {
+public class LunchboxPlacedSlot extends Slot {
 
-	public LunchboxPlacedSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-		super(itemHandler, index, xPosition, yPosition);
+	public LunchboxPlacedSlot(Container container, int index, int xPosition, int yPosition) {
+		super(container, index, xPosition, yPosition);
 	}
 	
 	@Override

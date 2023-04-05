@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import io._3650.lunchbox.Lunchbox;
 import io._3650.lunchbox.registry.ModBlocks;
 import net.minecraft.core.Direction;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -18,29 +18,29 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class DataBlockStates extends BlockStateProvider {
 	
-	public DataBlockStates(DataGenerator generator, ExistingFileHelper helper) {
-		super(generator, Lunchbox.MOD_ID, helper);
+	public DataBlockStates(PackOutput output, ExistingFileHelper exFileHelper) {
+		super(output, Lunchbox.MOD_ID, exFileHelper);
 	}
 	
 	@Override
 	protected void registerStatesAndModels() {
 		createLunchbox(ModBlocks.LUNCHBOX.get(), "lunchbox", null);
 		createLunchbox(ModBlocks.WHITE_LUNCHBOX.get(), "white_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.LIGHT_GRAY_LUNCHBOX.get(), "light_gray_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.GRAY_LUNCHBOX.get(), "gray_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.BLACK_LUNCHBOX.get(), "black_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.BROWN_LUNCHBOX.get(), "brown_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.RED_LUNCHBOX.get(), "red_lunchbox", null);
 		createLunchbox(ModBlocks.ORANGE_LUNCHBOX.get(), "orange_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.MAGENTA_LUNCHBOX.get(), "magenta_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.LIGHT_BLUE_LUNCHBOX.get(), "light_blue_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.YELLOW_LUNCHBOX.get(), "yellow_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.LIME_LUNCHBOX.get(), "lime_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.PINK_LUNCHBOX.get(), "pink_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.GRAY_LUNCHBOX.get(), "gray_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.LIGHT_GRAY_LUNCHBOX.get(), "light_gray_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.CYAN_LUNCHBOX.get(), "cyan_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.PURPLE_LUNCHBOX.get(), "purple_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.BLUE_LUNCHBOX.get(), "blue_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.BROWN_LUNCHBOX.get(), "brown_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.GREEN_LUNCHBOX.get(), "green_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.RED_LUNCHBOX.get(), "red_lunchbox", null);
-		createLunchbox(ModBlocks.BLACK_LUNCHBOX.get(), "black_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.CYAN_LUNCHBOX.get(), "cyan_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.BLUE_LUNCHBOX.get(), "blue_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.LIGHT_BLUE_LUNCHBOX.get(), "light_blue_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.PURPLE_LUNCHBOX.get(), "purple_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.MAGENTA_LUNCHBOX.get(), "magenta_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.PINK_LUNCHBOX.get(), "pink_lunchbox", "lunchbox");
 	}
 	
 	private void createLunchbox(Block block, String name, @Nullable String parentModel) {

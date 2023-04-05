@@ -16,8 +16,8 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -28,13 +28,13 @@ public class ClientEvents {
 	private static ResourceLocation WIDGETS = new ResourceLocation(Lunchbox.MOD_ID, "textures/gui/widgets.png");
 	
 	@SubscribeEvent
-	public static void hudPost(final RenderGameOverlayEvent.Post event) {
+	public static void hudPost(final RenderGuiOverlayEvent.Post event) {
 		if (!Config.CLIENT.lunchboxItemPreview.get()) return;
 		
-		if (event.getType() == ElementType.ALL) {
+		if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
 			Minecraft mc = Minecraft.getInstance();
 			Player player = mc.player;
-			PoseStack matrixStack = event.getMatrixStack();
+			PoseStack matrixStack = event.getPoseStack();
 			
 			ItemRenderer itemRenderer = mc.getItemRenderer();
 			Window window = event.getWindow();

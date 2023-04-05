@@ -6,15 +6,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class LunchboxDyeRecipe extends CustomRecipe {
-
-	public LunchboxDyeRecipe(ResourceLocation id) {
-		super(id);
+	
+	public LunchboxDyeRecipe(ResourceLocation id, CraftingBookCategory category) {
+		super(id, category);
 	}
 
 	@Override
@@ -61,13 +61,7 @@ public class LunchboxDyeRecipe extends CustomRecipe {
 		
 		ItemStack result = new ItemStack(LunchboxItem.byColor(color));
 		if (itemstack.hasTag()) {
-			result.setTag(itemstack.getTag());
-		}
-		
-		ItemStackHandler stackHandler = LunchboxItem.getItemHandler(itemstack);
-		ItemStackHandler resultHandler = LunchboxItem.getItemHandler(result);
-		if (stackHandler != null && resultHandler != null) {
-			resultHandler.deserializeNBT(stackHandler.serializeNBT());
+			result.setTag(itemstack.getTag().copy());
 		}
 		
 		return result;

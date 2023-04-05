@@ -1,14 +1,14 @@
 {
   "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "lunchbox:item/magenta_lunchbox"
-  },
   "overrides": [
     {
+      "model": "lunchbox:item/magenta_lunchbox_open",
       "predicate": {
         "lunchbox:open": 1.0
-      },
-      "model": "lunchbox:item/magenta_lunchbox_open"
+      }
     }
-  ]
+  ],
+  "textures": {
+    "layer0": "lunchbox:item/magenta_lunchbox"
+  }
 }

@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[40,)"
+loaderVersion="[44,)"
 license="MIT License"
 issueTrackerURL="https://github.com/LegoMaster3650/Lunchbox/issues"
 
@@ -12,30 +12,24 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/lunchboxes"
 logoFile="lunchbox.png"
 credits="LegoMaster3650 (Coding and most art), ChumChimmy (purple lunchbox)"
 authors="LegoMaster3650"
+displayTest="MATCH_VERSION"
 description='''
 Lunchboxes and more to solve your diet diversity needs!
 '''
 
 [[dependencies.lunchbox]]
-	modId="forge"
-	mandatory=true
-	versionRange="[40,)"
-	ordering="NONE"
-	side="BOTH"
-
+    modId="forge"
+    mandatory=true
+    versionRange="[44,)"
+    ordering="NONE"
+    side="BOTH"
+	
 [[dependencies.lunchbox]]
-	modId="minecraft"
-	mandatory=true
-	versionRange="[1.18.2,1.19)"
-	ordering="NONE"
-	side="BOTH"
-
-[[dependencies.lunchbox]]
-	modId="appleskin"
-	mandatory=false
-	versionRange="[2.4.1,)"
-	ordering="BEFORE"
-	side="CLIENT"
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19.3,1.20)"
+    ordering="NONE"
+    side="BOTH"
 
 [modproperties.lunchbox]
 	catalogueItemIcon="lunchbox:lunchbox"

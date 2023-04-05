@@ -1,7 +1,7 @@
 package io._3650.lunchbox.menus;
 
 import io._3650.lunchbox.blocks.entity.LunchboxBlockEntity;
-import io._3650.lunchbox.registry.ModContainers;
+import io._3650.lunchbox.registry.ModMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +12,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 public class LunchboxPlacedMenu extends AbstractContainerMenu {
 	
@@ -27,19 +26,18 @@ public class LunchboxPlacedMenu extends AbstractContainerMenu {
 	}
 	
 	public LunchboxPlacedMenu(int windowId, Inventory playerInv, LunchboxBlockEntity blockEntity) {
-		super(ModContainers.LUNCHBOX_PLACED.get(), windowId);
+		super(ModMenus.LUNCHBOX_PLACED.get(), windowId);
 		this.blockEntity = blockEntity;
 		this.level = playerInv.player.level;
 		this.boxRows = blockEntity.getInvRows();
 		this.color = blockEntity.getColor();
 		
-		blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-			for (int i = 0; i < boxRows; i++) {
-				for (int j = 0; j < 9; j++) {
-					this.addSlot(new LunchboxPlacedSlot(handler, i * 9 + j, 18 * j + 8, 18 * i + 18));
-				}
+		System.out.println(blockEntity.getContainerSize());
+		for (int i = 0; i < boxRows; i++) {
+			for (int j = 0; j < 9; j++) {
+				this.addSlot(new LunchboxPlacedSlot(blockEntity, i * 9 + j, 18 * j + 8, 18 * i + 18));
 			}
-		});
+		}
 		
 		this.addPlayerInventory(playerInv);
 	}

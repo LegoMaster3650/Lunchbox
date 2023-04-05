@@ -3,8 +3,9 @@ package io._3650.lunchbox.menus;
 import javax.annotation.Nullable;
 
 import io._3650.lunchbox.Lunchbox;
+import io._3650.lunchbox.items.LunchboxContainer;
 import io._3650.lunchbox.items.LunchboxItem;
-import io._3650.lunchbox.registry.ModContainers;
+import io._3650.lunchbox.registry.ModMenus;
 import io._3650.lunchbox.registry.Reference;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
@@ -19,7 +20,6 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 public class LunchboxSelectorMenu extends AbstractContainerMenu {
 	
@@ -36,7 +36,7 @@ public class LunchboxSelectorMenu extends AbstractContainerMenu {
 	}
 	
 	public LunchboxSelectorMenu(int windowId, Inventory playerInv, int selSlot, int rows, InteractionHand selHand, @Nullable DyeColor color) {
-		super(ModContainers.LUNCHBOX_SELECTOR.get(), windowId);
+		super(ModMenus.LUNCHBOX_SELECTOR.get(), windowId);
 		this.boxRows = rows;
 		
 		this.selectedSlot = selSlot;
@@ -47,17 +47,17 @@ public class LunchboxSelectorMenu extends AbstractContainerMenu {
 		
 		if (!(boxItem.getItem() instanceof LunchboxItem) && playerInv.player.level.isClientSide) {
 			playerInv.player.closeContainer();
-		}
-		
-		boxItem.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+		} else {
+			LunchboxContainer container = LunchboxItem.getContainer(boxItem);
+			
 			for (int i = 0; i < boxRows; i++) {
 				for (int j = 0; j < 9; j++) {
-					this.addSlot(new LunchboxSelectorSlot(handler, i * 9 + j, 18 * j + 8, 18 * i + 18));
+					this.addSlot(new LunchboxSelectorSlot(container, i * 9 + j, 18 * j + 8, 18 * i + 18));
 				}
 			}
-		});
-		
-		Lunchbox.playClientSideSound(playerInv.player.level, Reference.LUNCHBOX_OPEN);
+			
+			Lunchbox.playClientSideSound(playerInv.player.level, Reference.LUNCHBOX_OPEN);
+		}
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public class LunchboxSelectorMenu extends AbstractContainerMenu {
 			CrashReport crashreport = CrashReport.forThrowable(exception, "Container click");
 			CrashReportCategory crashreportcategory = crashreport.addCategory("Click info");
 			crashreportcategory.setDetail("Menu Type", () -> {
-				return ModContainers.LUNCHBOX_SELECTOR.getKey().toString();
+				return ModMenus.LUNCHBOX_SELECTOR.getKey().toString();
 			});
 			crashreportcategory.setDetail("Menu Class", () -> {
 				return this.getClass().getCanonicalName();
@@ -86,7 +86,7 @@ public class LunchboxSelectorMenu extends AbstractContainerMenu {
 			Slot slot = this.slots.get(slotNum);
 			if (slot instanceof LunchboxSelectorSlot) {
 				LunchboxItem.setTargetFoodSlot(boxItem, slotNum);
-				Lunchbox.playClientSideSound(player.level, SoundEvents.UI_BUTTON_CLICK);
+				Lunchbox.playClientSideSound(player.level, SoundEvents.UI_BUTTON_CLICK.get());
 			}
 		}
 	}

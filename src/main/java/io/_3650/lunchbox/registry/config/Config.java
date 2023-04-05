@@ -24,19 +24,8 @@ public class Config {
 	
 	public static class Common {
 		
-		public final BooleanValue enableNetworkCapabilities;
-		
 		Common(ForgeConfigSpec.Builder builder) {
-			builder.comment("Slightly invasive patches that you may want to configure").push("patches");
 			
-			enableNetworkCapabilities = builder.comment(
-					"Serializes item capabilities over network using a mixin.",
-					"This is necessary for the items to properly synchronize between client & server.",
-					"Only does this for Lunchbox items",
-					"WARNING: If you disable this on a server, make sure to give the updated file to all players"
-					).define("enableNetworkCapabilities", true);
-			
-			builder.pop();
 		}
 	}
 	

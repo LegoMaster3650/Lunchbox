@@ -1,6 +1,5 @@
 package io._3650.lunchbox.blocks.entity;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io._3650.lunchbox.blocks.LunchboxBlock;
@@ -9,12 +8,11 @@ import io._3650.lunchbox.menus.LunchboxPlacedMenu;
 import io._3650.lunchbox.registry.ModBlockEntities;
 import io._3650.lunchbox.registry.Reference;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -23,48 +21,30 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
-public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
-	
-	private final ItemStackHandler itemHandler = new ItemStackHandler(Reference.lunchboxRows * 9) {
-		@Override
-		protected void onContentsChanged(int slot) {
-			setChanged();
-		}
-		
-		@Override
-		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-			return LunchboxItem.checkItemValid(stack) && super.isItemValid(slot, stack);
-		}
-	};
-	private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> this.itemHandler);
+public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
 	
 	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
-
+		
 		@Override
 		protected void onOpen(Level level, BlockPos pos, BlockState state) {
 			level.playSound(null, pos, Reference.LUNCHBOX_OPEN, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
 			LunchboxBlockEntity.this.level.setBlock(getBlockPos(), state.setValue(LunchboxBlock.OPEN, Boolean.valueOf(true)), level.isClientSide ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
 		}
-
+		
 		@Override
 		protected void onClose(Level level, BlockPos pos, BlockState state) {
 			level.playSound(null, pos, Reference.LUNCHBOX_CLOSE, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
 			LunchboxBlockEntity.this.level.setBlock(getBlockPos(), state.setValue(LunchboxBlock.OPEN, Boolean.valueOf(false)), level.isClientSide ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
 		}
-
+		
 		@Override
 		protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int p_155466_, int p_155467_) {
 		}
-
+		
 		@Override
 		protected boolean isOwnContainer(Player playerIn) {
 			if (playerIn.containerMenu instanceof LunchboxPlacedMenu) {
@@ -77,8 +57,8 @@ public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
 		
 	};
 	
-	private int invRows;
-	private Component customName;
+	private int invRows = Reference.lunchboxRows;
+	private NonNullList<ItemStack> items = NonNullList.withSize(invRows * 9, ItemStack.EMPTY);
 	
 	private final DyeColor color;
 	
@@ -86,26 +66,20 @@ public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
 	
 	public LunchboxBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.LUNCHBOX.get(), pos, state);
-		this.invRows = Reference.lunchboxRows;
 		this.color = LunchboxBlock.getColorFromBlock(state.getBlock());
 	}
 	
 	public LunchboxBlockEntity(BlockPos pos, BlockState state, @Nullable DyeColor color) {
 		super(ModBlockEntities.LUNCHBOX.get(), pos, state);
-		this.invRows = Reference.lunchboxRows;
 		this.color = color;
 	}
 	
 	public void loadAllData(ItemStack stack) {
 		if (stack.getItem() instanceof LunchboxItem) {
 			this.invRows = LunchboxItem.getInventoryRows(stack);
+			this.readInventory(stack.getOrCreateTag());
 			this.targetSlotSave = LunchboxItem.getTargetFoodSlot(stack);
-			stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-				itemHandler.deserializeNBT(((ItemStackHandler)h).serializeNBT());
-			});
-			if (stack.hasCustomHoverName()) {
-				setCustomName(stack.getHoverName());
-			}
+			if (stack.hasCustomHoverName()) this.setCustomName(stack.getHoverName());
 		}
 	}
 	
@@ -114,65 +88,42 @@ public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
 	}
 	
 	public ItemStack saveAllData(ItemStack stack) {
-		LunchboxItem.getItemHandler(stack).deserializeNBT(itemHandler.serializeNBT());
+		this.writeInventory(stack.getOrCreateTag());
 		LunchboxItem.setTargetFoodSlot(stack, this.targetSlotSave);
-		if (this.customName != null) {
-			stack.setHoverName(this.customName);
-		}
+		if (this.hasCustomName()) stack.setHoverName(this.getCustomName());
 		return stack;
 	}
 	
-	public void setInventory(CompoundTag tag) {
-		itemHandler.deserializeNBT(tag);
+	public void writeInventory(CompoundTag tag) {
+		ContainerHelper.saveAllItems(tag, this.items);
 	}
 	
-	public void setCustomName(Component name) {
-		this.customName = name;
+	public void readInventory(CompoundTag tag) {
+		this.items = NonNullList.withSize(invRows * 9, ItemStack.EMPTY);
+		ContainerHelper.loadAllItems(tag, this.items);
 	}
 	
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
-		tag.put("Inventory", itemHandler.serializeNBT());
-		if (this.customName != null) tag.putString("CustomName", Component.Serializer.toJson(this.customName));
-		tag.putInt("TargetSlot", this.targetSlotSave);
 		super.saveAdditional(tag);
+		if (!this.trySaveLootTable(tag)) {
+			this.writeInventory(tag);
+		}
+		tag.putInt(LunchboxItem.NBT_TARGETSLOT, this.targetSlotSave);
 	}
 	
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
-		if (tag.contains("CustomName", CompoundTag.TAG_STRING)) setCustomName(Component.Serializer.fromJson(tag.getString("CustomName")));
-		if (tag.contains("TargetSlot", CompoundTag.TAG_INT)) this.targetSlotSave = tag.getInt("TargetSlot");
-		setInventory(tag.getCompound("Inventory"));
-	}
-	
-	public int getInvRows() {
-		return this.invRows;
-	}
-	
-	@Override
-	public Component getDisplayName() {
-		return this.customName != null ? this.customName : new TranslatableComponent("block.lunchbox." + LunchboxItem.getDyePrefix(this.color) + "lunchbox");
-	}
-	
-	@Override
-	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player pPlayer) {
-		return new LunchboxPlacedMenu(windowId, playerInv, this);
-	}
-	
-	@Override
-	public void setRemoved() {
-		super.setRemoved();
-		handler.invalidate();
-	}
-	
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return handler.cast();
+		if (!this.tryLoadLootTable(tag)) {
+			this.readInventory(tag);
 		}
-		return super.getCapability(cap, side);
+		this.targetSlotSave = tag.getInt(LunchboxItem.NBT_TARGETSLOT);
+	}
+	
+	@Override
+	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv) {
+		return new LunchboxPlacedMenu(windowId, playerInv, this);
 	}
 	
 	public void startOpen(Player player) {
@@ -187,8 +138,38 @@ public class LunchboxBlockEntity extends BlockEntity implements MenuProvider {
 		}
 	}
 	
+	public void recheckOpen() {
+		if (!this.remove) {
+			this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
+		}
+	}
+	
 	public DyeColor getColor() {
 		return this.color;
+	}
+	
+	public int getInvRows() {
+		return this.invRows;
+	}
+
+	@Override
+	public int getContainerSize() {
+		return this.invRows * 9;
+	}
+
+	@Override
+	protected NonNullList<ItemStack> getItems() {
+		return this.items;
+	}
+
+	@Override
+	protected void setItems(NonNullList<ItemStack> items) {
+		this.items = items;
+	}
+	
+	@Override
+	protected Component getDefaultName() {
+		return Component.translatable("block.lunchbox." + LunchboxItem.getDyePrefix(this.color) + "lunchbox");
 	}
 	
 }

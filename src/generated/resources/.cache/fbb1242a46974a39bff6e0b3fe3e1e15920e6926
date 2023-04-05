@@ -1,0 +1,5 @@
+// 1.19.3	2023-04-04T23:30:19.4283981	Lunchbox Item Tags
+d6ec3f3e3d4353d6178aa3016956e8758d746b47 data/lunchbox/tags/items/force_always_eat.json
+e7a0f95e7f4c5b136eb233de187cdd542459336e data/lunchbox/tags/items/lunchboxes.json
+e7a0f95e7f4c5b136eb233de187cdd542459336e data/lunchbox/tags/items/lunchbox_blacklisted.json
+44822a64bf2a149dafb27d49a75bb0d470cb1334 data/lunchbox/tags/items/lunchbox_whitelisted.json

@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " # ",
-    "#-#",
-    "###"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "tag": "forge:ingots/iron"
@@ -13,6 +9,11 @@
       "tag": "forge:nuggets/gold"
     }
   },
+  "pattern": [
+    " # ",
+    "#-#",
+    "###"
+  ],
   "result": {
     "item": "lunchbox:lunchbox"
   }

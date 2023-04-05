@@ -12,7 +12,6 @@ import io._3650.lunchbox.registry.config.Config;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -34,32 +33,18 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 
 public class LunchboxItem extends BlockItem {
 	
-	private static String NBT_TARGETSLOT = "TargetSlot";
+	public static final String NBT_TARGETSLOT = "TargetSlot";
 	
 	private DyeColor color;
 	
 	public LunchboxItem(Block block, Properties properties, @Nullable DyeColor color) {
 		super(block, properties);
 		this.color = color;
-	}
-	
-	@Nullable
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
-		if (stack.getItem() instanceof LunchboxItem) {
-			return new LunchboxItemCapabilityProvider();
-		}
-		return null;
 	}
 	
 	@Override
@@ -96,7 +81,7 @@ public class LunchboxItem extends BlockItem {
 		if (!level.isClientSide && player.isCrouching() && !(player.containerMenu instanceof LunchboxSelectorMenu)) {
 			int playerSelSlot = player.getInventory().selected;
 			int openInvRows = getInventoryRows(stack);
-			NetworkHooks.openGui((ServerPlayer) player, new SimpleMenuProvider((windowId, playerInv, playerEntity) -> new LunchboxSelectorMenu(windowId, playerInv, playerSelSlot, openInvRows, hand, this.color), stack.getHoverName()), (buffer -> buffer.writeInt(playerSelSlot).writeInt(openInvRows).writeInt(hand.ordinal()).writeInt(color == null ? -1 : color.ordinal())));
+			NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((windowId, playerInv, playerEntity) -> new LunchboxSelectorMenu(windowId, playerInv, playerSelSlot, openInvRows, hand, this.color), stack.getHoverName()), (buffer -> buffer.writeInt(playerSelSlot).writeInt(openInvRows).writeInt(hand.ordinal()).writeInt(color == null ? -1 : color.ordinal())));
 		} else if (!player.isCrouching()) {
 			ItemStack targetFood = getTargetFood(stack);
 			FoodProperties targetFoodProperties = targetFood.getFoodProperties(player);
@@ -130,30 +115,31 @@ public class LunchboxItem extends BlockItem {
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity living) {
 		if (!(stack.getItem() instanceof LunchboxItem)) return stack;
 		if (!(living instanceof Player player)) return stack;
-		ItemStackHandler handler = getItemHandler(stack);
+		LunchboxContainer container = getContainer(stack);
 		int targetFoodSlot = getTargetFoodSlot(stack);
 		ItemStack targetFood = getTargetFood(stack);
 		Item targetFoodItem = targetFood.getItem();
 		
 		if (!stack.isEmpty()) {
 			ItemStack result = ForgeEventFactory.onItemUseFinish(living, targetFood.copy(), living.getUseItemRemainingTicks(), targetFood.finishUsingItem(level, living));
-			if (result != stack) handler.setStackInSlot(targetFoodSlot, result);
+			if (result != stack) container.setItem(targetFoodSlot, result);
 			boolean resultValid = checkItemValid(result);
 			boolean resultEmpty = result.isEmpty();
 			if (!resultValid && !result.isEmpty()) {
-				handler.setStackInSlot(targetFoodSlot, ItemStack.EMPTY);
+				container.setItem(targetFoodSlot, ItemStack.EMPTY);
 				if (!player.getInventory().add(result)) {
 					player.drop(stack, false);
 				}
 			}
+			container.save();
 			if (!resultValid || resultEmpty) {
 				//probably doesnt need to be this complicated
 				boolean matchingFoodSlotFound = false;
 				int matchingFoodSlot = 0;
 				boolean nonEmptySlotFound = false;
 				int firstNonEmptySlot = 0;
-				for (int i = targetFoodSlot; i < handler.getSlots(); i++) {
-					ItemStack checkItem = handler.getStackInSlot(i);
+				for (int i = targetFoodSlot; i < container.getContainerSize(); i++) {
+					ItemStack checkItem = container.getItem(i);
 					if (checkItem.getItem() == targetFoodItem) {
 						matchingFoodSlot = i;
 						matchingFoodSlotFound = true;
@@ -165,7 +151,7 @@ public class LunchboxItem extends BlockItem {
 				}
 				if (!matchingFoodSlotFound) {
 					for (int i = 0; i < targetFoodSlot; i++) {
-						ItemStack checkItem = handler.getStackInSlot(i);
+						ItemStack checkItem = container.getItem(i);
 						if (checkItem.getItem() == targetFoodItem) {
 							matchingFoodSlot = i;
 							matchingFoodSlotFound = true;
@@ -182,13 +168,13 @@ public class LunchboxItem extends BlockItem {
 			}
 		}
 		
-		living.gameEvent(GameEvent.EAT, living.eyeBlockPosition());
+		living.gameEvent(GameEvent.EAT);
 		return stack;
 	}
 	
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-		if (this.color != null && Config.CLIENT.enableLunchboxTooltips.get()) tooltip.add(new TranslatableComponent("tooltip.lunchbox." + this.color.toString()).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+		if (this.color != null && Config.CLIENT.enableLunchboxTooltips.get()) tooltip.add(Component.translatable("tooltip.lunchbox." + this.color.toString()).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
 		super.appendHoverText(stack, level, tooltip, flag);
 	}
 	
@@ -200,15 +186,13 @@ public class LunchboxItem extends BlockItem {
 		return Reference.lunchboxRows;
 	}
 	
-	@Nullable
-	public static ItemStackHandler getItemHandler(ItemStack stack) {
-		LazyOptional<IItemHandler> handlerOptional = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
-		return handlerOptional.isPresent() && handlerOptional.resolve().get() instanceof ItemStackHandler handler ? handler : null;
+	public static LunchboxContainer getContainer(ItemStack stack) {
+		return new LunchboxContainer(stack);
 	}
 	
 	public static ItemStack getTargetFood(ItemStack stack) {
-		ItemStackHandler handler = getItemHandler(stack);
-		return handler.getStackInSlot(getTargetFoodSlot(stack));
+		LunchboxContainer container = getContainer(stack);
+		return container.getItem(getTargetFoodSlot(stack));
 	}
 	
 	public static int getTargetFoodSlot(ItemStack stack) {

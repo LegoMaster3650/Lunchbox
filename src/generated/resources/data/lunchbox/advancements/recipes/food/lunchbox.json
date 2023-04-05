@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "gold": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:gold_nugget"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "lunchbox:lunchbox"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:iron_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "iron",
+      "gold",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "lunchbox:lunchbox"
+    ]
+  }
+}
