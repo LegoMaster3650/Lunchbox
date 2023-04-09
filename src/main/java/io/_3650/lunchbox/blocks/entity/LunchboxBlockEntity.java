@@ -1,5 +1,7 @@
 package io._3650.lunchbox.blocks.entity;
 
+import java.util.stream.IntStream;
+
 import javax.annotation.Nullable;
 
 import io._3650.lunchbox.blocks.LunchboxBlock;
@@ -8,11 +10,16 @@ import io._3650.lunchbox.menus.LunchboxPlacedMenu;
 import io._3650.lunchbox.registry.ModBlockEntities;
 import io._3650.lunchbox.registry.Reference;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,40 +31,35 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
+public class LunchboxBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
 	
 	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
 		
 		@Override
 		protected void onOpen(Level level, BlockPos pos, BlockState state) {
-			level.playSound(null, pos, Reference.LUNCHBOX_OPEN, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
-			LunchboxBlockEntity.this.level.setBlock(getBlockPos(), state.setValue(LunchboxBlock.OPEN, Boolean.valueOf(true)), level.isClientSide ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
+			LunchboxBlockEntity.this.tryOpenState(level, pos, state);
 		}
 		
 		@Override
 		protected void onClose(Level level, BlockPos pos, BlockState state) {
-			level.playSound(null, pos, Reference.LUNCHBOX_CLOSE, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
-			LunchboxBlockEntity.this.level.setBlock(getBlockPos(), state.setValue(LunchboxBlock.OPEN, Boolean.valueOf(false)), level.isClientSide ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
+			LunchboxBlockEntity.this.tryCloseState(level, pos, state);
 		}
 		
 		@Override
-		protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int p_155466_, int p_155467_) {
-		}
+		protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int lastCount, int count) {}
 		
 		@Override
-		protected boolean isOwnContainer(Player playerIn) {
-			if (playerIn.containerMenu instanceof LunchboxPlacedMenu) {
-				LunchboxBlockEntity testBE = ((LunchboxPlacedMenu)playerIn.containerMenu).getBlockEntity();
-				return testBE == LunchboxBlockEntity.this;
-			} else {
-				return false;
-			}
+		protected boolean isOwnContainer(Player player) {
+			return player.containerMenu instanceof LunchboxPlacedMenu mmm && mmm.getBlockEntity() == LunchboxBlockEntity.this;
 		}
 		
 	};
 	
 	private int invRows = Reference.lunchboxRows;
+	private int[] slots = IntStream.range(0, invRows * 9).toArray();
 	private NonNullList<ItemStack> items = NonNullList.withSize(invRows * 9, ItemStack.EMPTY);
 	
 	private final DyeColor color;
@@ -77,6 +79,8 @@ public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
 	public void loadAllData(ItemStack stack) {
 		if (stack.getItem() instanceof LunchboxItem) {
 			this.invRows = LunchboxItem.getInventoryRows(stack);
+			this.slots = IntStream.range(0, invRows * 9).toArray();
+			this.items = NonNullList.withSize(invRows * 9, ItemStack.EMPTY);
 			this.readInventory(stack.getOrCreateTag());
 			this.targetSlotSave = LunchboxItem.getTargetFoodSlot(stack);
 			if (stack.hasCustomHoverName()) this.setCustomName(stack.getHoverName());
@@ -99,7 +103,6 @@ public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
 	}
 	
 	public void readInventory(CompoundTag tag) {
-		this.items = NonNullList.withSize(invRows * 9, ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(tag, this.items);
 	}
 	
@@ -122,6 +125,16 @@ public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
 	}
 	
 	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+	
+	@Override
+	public CompoundTag getUpdateTag() {
+		return this.saveWithoutMetadata();
+	}
+	
+	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv) {
 		return new LunchboxPlacedMenu(windowId, playerInv, this);
 	}
@@ -140,7 +153,21 @@ public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
 	
 	public void recheckOpen() {
 		if (!this.remove) {
-			this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
+			this.openersCounter.recheckOpeners(getLevel(), getBlockPos(), getBlockState());
+		}
+	}
+	
+	public void tryOpenState(Level level, BlockPos pos, BlockState state) {
+		if (!state.getValue(LunchboxBlock.OPEN)) {
+			level.playSound(null, pos, Reference.LUNCHBOX_OPEN, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+			level.setBlock(getBlockPos(), state.setValue(LunchboxBlock.OPEN, Boolean.valueOf(true)), level.isClientSide ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
+		}
+	}
+	
+	public void tryCloseState(Level level, BlockPos pos, BlockState state) {
+		if (openersCounter.getOpenerCount() == 0 && !level.hasNeighborSignal(pos)) {
+			level.playSound(null, pos, Reference.LUNCHBOX_CLOSE, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+			level.setBlock(getBlockPos(), state.setValue(LunchboxBlock.OPEN, Boolean.valueOf(false)), level.isClientSide ? Block.UPDATE_ALL_IMMEDIATE : Block.UPDATE_ALL);
 		}
 	}
 	
@@ -151,7 +178,7 @@ public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
 	public int getInvRows() {
 		return this.invRows;
 	}
-
+	
 	@Override
 	public int getContainerSize() {
 		return this.invRows * 9;
@@ -170,6 +197,32 @@ public class LunchboxBlockEntity extends RandomizableContainerBlockEntity {
 	@Override
 	protected Component getDefaultName() {
 		return Component.translatable("block.lunchbox." + LunchboxItem.getDyePrefix(this.color) + "lunchbox");
+	}
+	
+	@Override
+	public int[] getSlotsForFace(Direction pSide) {
+		return slots;
+	}
+	
+	@Override
+	public boolean canPlaceItem(int index, ItemStack stack) {
+		return LunchboxItem.checkItemValid(stack);
+	}
+	
+	@Override
+	public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
+		return LunchboxItem.checkItemValid(stack);
+	}
+	
+	@Override
+	public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
+		return true;
+	}
+	
+	//get destroyed forge im making a sided one
+	@Override
+	protected IItemHandler createUnSidedHandler() {
+		return new SidedInvWrapper(this, Direction.UP);
 	}
 	
 }

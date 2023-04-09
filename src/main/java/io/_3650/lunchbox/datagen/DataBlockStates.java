@@ -3,12 +3,12 @@ package io._3650.lunchbox.datagen;
 import javax.annotation.Nullable;
 
 import io._3650.lunchbox.Lunchbox;
+import io._3650.lunchbox.blocks.LunchboxBlock;
 import io._3650.lunchbox.registry.ModBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -35,7 +35,7 @@ public class DataBlockStates extends BlockStateProvider {
 		createLunchbox(ModBlocks.YELLOW_LUNCHBOX.get(), "yellow_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.LIME_LUNCHBOX.get(), "lime_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.GREEN_LUNCHBOX.get(), "green_lunchbox", "lunchbox");
-		createLunchbox(ModBlocks.CYAN_LUNCHBOX.get(), "cyan_lunchbox", "lunchbox");
+		createLunchbox(ModBlocks.CYAN_LUNCHBOX.get(), "cyan_lunchbox", null);
 		createLunchbox(ModBlocks.BLUE_LUNCHBOX.get(), "blue_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.LIGHT_BLUE_LUNCHBOX.get(), "light_blue_lunchbox", "lunchbox");
 		createLunchbox(ModBlocks.PURPLE_LUNCHBOX.get(), "purple_lunchbox", "lunchbox");
@@ -67,15 +67,15 @@ public class DataBlockStates extends BlockStateProvider {
 		
 		//Build blockstates
 		VariantBlockStateBuilder builder = getVariantBuilder(block);
-		builder.forAllStates(state -> {
-			Direction dir = state.getValue(BlockStateProperties.FACING);
-			boolean open = state.getValue(BlockStateProperties.OPEN);
+		builder.forAllStatesExcept(state -> {
+			Direction dir = state.getValue(LunchboxBlock.FACING);
+			boolean open = state.getValue(LunchboxBlock.OPEN);
 			return ConfiguredModel.builder()
 					.modelFile(open ? openModel : closedModel)
 					.rotationX(0)
 					.rotationY(dir.getAxis().isVertical() ? 0 : ((int)dir.toYRot() + 180) % 360)
 					.build();
-		});
+		}, LunchboxBlock.WATERLOGGED);
 	}
 	
 }

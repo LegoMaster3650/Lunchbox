@@ -32,7 +32,6 @@ public class LunchboxPlacedMenu extends AbstractContainerMenu {
 		this.boxRows = blockEntity.getInvRows();
 		this.color = blockEntity.getColor();
 		
-		System.out.println(blockEntity.getContainerSize());
 		for (int i = 0; i < boxRows; i++) {
 			for (int j = 0; j < 9; j++) {
 				this.addSlot(new LunchboxPlacedSlot(blockEntity, i * 9 + j, 18 * j + 8, 18 * i + 18));
@@ -116,9 +115,7 @@ public class LunchboxPlacedMenu extends AbstractContainerMenu {
 	}
 	
 	private static LunchboxBlockEntity validateBlockEntity(BlockEntity blockEntity) {
-		if (blockEntity instanceof LunchboxBlockEntity) {
-			return (LunchboxBlockEntity) blockEntity;
-		}
+		if (blockEntity instanceof LunchboxBlockEntity lunchboxBE) return lunchboxBE;
 		throw new IllegalStateException("Block entity expected to be LunchboxBlockEntity! " + blockEntity);
 	}
 	

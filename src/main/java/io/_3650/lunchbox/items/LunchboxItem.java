@@ -78,11 +78,11 @@ public class LunchboxItem extends BlockItem {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (!(stack.getItem() instanceof LunchboxItem)) return InteractionResultHolder.pass(stack);
-		if (!level.isClientSide && player.isCrouching() && !(player.containerMenu instanceof LunchboxSelectorMenu)) {
+		if (!level.isClientSide && player.isSecondaryUseActive() && !(player.containerMenu instanceof LunchboxSelectorMenu)) {
 			int playerSelSlot = player.getInventory().selected;
 			int openInvRows = getInventoryRows(stack);
 			NetworkHooks.openScreen((ServerPlayer) player, new SimpleMenuProvider((windowId, playerInv, playerEntity) -> new LunchboxSelectorMenu(windowId, playerInv, playerSelSlot, openInvRows, hand, this.color), stack.getHoverName()), (buffer -> buffer.writeInt(playerSelSlot).writeInt(openInvRows).writeInt(hand.ordinal()).writeInt(color == null ? -1 : color.ordinal())));
-		} else if (!player.isCrouching()) {
+		} else if (!player.isSecondaryUseActive()) {
 			ItemStack targetFood = getTargetFood(stack);
 			FoodProperties targetFoodProperties = targetFood.getFoodProperties(player);
 			if (!targetFood.isEmpty() && checkItemValid(targetFood) && !player.getCooldowns().isOnCooldown(targetFood.getItem()) && player.canEat((targetFood.isEdible() && targetFoodProperties != null && targetFoodProperties.canAlwaysEat()) || targetFood.is(ModItemTags.FORCE_ALWAYS_EAT))) {
@@ -108,7 +108,7 @@ public class LunchboxItem extends BlockItem {
 	
 	@Override
 	public InteractionResult place(BlockPlaceContext context) {
-		return context.getPlayer().isCrouching() ? super.place(context) : InteractionResult.FAIL;
+		return context.getPlayer().isSecondaryUseActive() ? super.place(context) : InteractionResult.FAIL;
 	}
 	
 	@Override
@@ -215,7 +215,7 @@ public class LunchboxItem extends BlockItem {
 	}
 	
 	public static boolean checkItemValid(ItemStack stack) {
-		return (stack.isEdible() || stack.is(ModItemTags.LUNCHBOX_WHITELIST)) && !stack.is(ModItemTags.LUNCHBOX_BLACKLIST) && !(stack.getItem() instanceof LunchboxItem);
+		return (stack.isEdible() || stack.is(ModItemTags.LUNCHBOX_WHITELIST)) && !stack.is(ModItemTags.LUNCHBOX_BLACKLIST) && !(stack.getItem() instanceof LunchboxItem) && stack.getItem().canFitInsideContainerItems();
 	}
 	
 	public static Item byColor(DyeColor color) {

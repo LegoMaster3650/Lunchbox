@@ -11,7 +11,7 @@ public class LunchboxContainer extends SimpleContainer {
 	public final ItemStack box;
 	
 	public LunchboxContainer(ItemStack box) {
-		super(LunchboxItem.getInventoryRows(box));
+		super(LunchboxItem.getInventoryRows(box) * 9);
 		this.box = box;
 		this.load();
 	}

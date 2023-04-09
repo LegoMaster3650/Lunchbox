@@ -1,4 +1,4 @@
-// 1.19.3	2023-04-04T23:30:19.429399	Block States: lunchbox
+// 1.19.3	2023-04-07T16:58:52.4754221	Block States: lunchbox
 6cea4fcc727b2fea9852b8fd8c1d68b673dde6eb assets/lunchbox/blockstates/black_lunchbox.json
 03188442a33da855623f3dfebd94f421f194be46 assets/lunchbox/blockstates/blue_lunchbox.json
 e1b8e844d6a331111dd8f6b16eb2f3055ccc0a55 assets/lunchbox/blockstates/brown_lunchbox.json
@@ -22,8 +22,6 @@ dba5340a2da064d7019c4a9f8486c481bd1cf20f assets/lunchbox/models/block/blue_lunch
 5b3ce41fcec21f91d2e8652a8cdeca917870c478 assets/lunchbox/models/block/blue_lunchbox_open.json
 924c19e48afb642afb0424a3d77c62a6026e8d2a assets/lunchbox/models/block/brown_lunchbox.json
 dc56d39332d20a7f2eac4bf152f48c5ab7a0e274 assets/lunchbox/models/block/brown_lunchbox_open.json
-20a39358b9ab8a860ba30fa5eca28117a7891e88 assets/lunchbox/models/block/cyan_lunchbox.json
-89d173d876e1bc5bafd6483240f9215722afa326 assets/lunchbox/models/block/cyan_lunchbox_open.json
 f9dc7bfa6dddbe84e98f1508a0febbc753665dd1 assets/lunchbox/models/block/gray_lunchbox.json
 c3a6a6bc0f0ec6f05aaf5f461a82d87aa839c46b assets/lunchbox/models/block/gray_lunchbox_open.json
 f75cd210a7a48c1f0c32ad37da2f98df260af7ad assets/lunchbox/models/block/green_lunchbox.json
