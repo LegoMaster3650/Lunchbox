@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = Lunchbox.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
 	
-	private static ResourceLocation WIDGETS = new ResourceLocation(Lunchbox.MOD_ID, "textures/gui/widgets.png");
+	private static final ResourceLocation WIDGETS = new ResourceLocation(Lunchbox.MOD_ID, "textures/gui/widgets.png");
 	
 	@SubscribeEvent
 	public static void hudPost(final RenderGuiOverlayEvent.Post event) {
