@@ -6,6 +6,7 @@ import io._3650.lunchbox.registry.ModMenus;
 import io._3650.lunchbox.registry.ModItems;
 import io._3650.lunchbox.screens.LunchboxPlacedScreen;
 import io._3650.lunchbox.screens.LunchboxSelectorScreen;
+import io._3650.peeklib.api.client.PeekLibApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public class LunchboxClient {
@@ -25,9 +27,10 @@ public class LunchboxClient {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		
 		bus.addListener(this::clientSetup);
+		bus.addListener(this::enqueueIMC);
 	}
 	
-	public void clientSetup(final FMLClientSetupEvent event) {
+	private void clientSetup(final FMLClientSetupEvent event) {
 		Lunchbox.LOGGER.info("Lunchbox client setup");
 		event.enqueueWork(() ->
 		{
@@ -54,6 +57,26 @@ public class LunchboxClient {
 			MenuScreens.register(ModMenus.LUNCHBOX_PLACED.get(), LunchboxPlacedScreen::new);
 			MenuScreens.register(ModMenus.LUNCHBOX_SELECTOR.get(), LunchboxSelectorScreen::new);
 		});
+	}
+	
+	private void enqueueIMC(InterModEnqueueEvent event) {
+		PeekLibApi.registerRenderer(ModItems.LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.WHITE_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.ORANGE_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.MAGENTA_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.LIGHT_BLUE_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.YELLOW_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.LIME_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.PINK_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.GRAY_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.LIGHT_GRAY_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.CYAN_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.PURPLE_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.BLUE_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.BROWN_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.GREEN_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.RED_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
+		PeekLibApi.registerRenderer(ModItems.BLACK_LUNCHBOX.get(), LunchboxPeekRenderer.INSTANCE);
 	}
 	
 	public static float openFunc(ItemStack stack, ClientLevel level, LivingEntity living, int seed) {

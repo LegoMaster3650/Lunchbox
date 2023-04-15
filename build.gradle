@@ -130,10 +130,18 @@ repositories {
 		name = "ModMaven"
 		url = "https://modmaven.dev"
 	}
+	flatDir {
+		dir '../PeekLib/build/libs'
+	}
 }
 
 dependencies {
 	minecraft 'net.minecraftforge:forge:1.19.3-44.1.23'
+	
+	//Compile against api
+	compileOnly fg.deobf("peeklib:peeklib_1.19.3:1.0.0:api")
+	//Use full core for runtime
+	runtimeOnly fg.deobf('peeklib:peeklib_1.19.3:1.0.0')
 	
 	//bring in appleskin because I need food value feedback
 	runtimeOnly fg.deobf("curse.maven:appleskin-248787:3872808")

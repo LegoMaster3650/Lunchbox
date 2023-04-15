@@ -31,5 +31,12 @@ Lunchboxes and more to solve your diet diversity needs!
     ordering="NONE"
     side="BOTH"
 
+[[dependencies.lunchbox]]
+	modId="peeklib"
+	mandatory=true
+	versionRange="[1.0.0,)"
+	ordering="NONE"
+	side="BOTH"
+
 [modproperties.lunchbox]
 	catalogueItemIcon="lunchbox:lunchbox"
