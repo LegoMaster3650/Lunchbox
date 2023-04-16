@@ -140,7 +140,7 @@ dependencies {
 	
 	//Compile against api
 	compileOnly fg.deobf("peeklib:peeklib_1.19.3:1.0.0:api")
-	//Use full core for runtime
+	//Use full lib for runtime
 	runtimeOnly fg.deobf('peeklib:peeklib_1.19.3:1.0.0')
 	
 	//bring in appleskin because I need food value feedback
